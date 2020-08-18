@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS "packages";
 CREATE TABLE IF NOT EXISTS "packages"(
-    "name" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER PRIMARY KEY, -- SQLite does auto-incrementation automatically
+    "name" TEXT NOT NULL,
     "version" TEXT,
     "descriptionSummary" TEXT,
     "description" TEXT
@@ -8,9 +9,15 @@ CREATE TABLE IF NOT EXISTS "packages"(
 
 DROP TABLE IF EXISTS "dependencies";
 CREATE TABLE IF NOT EXISTS "dependencies"(
-    "id" INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    "dependent" TEXT,
-    "dependency" TEXT,
+    "id" INTEGER PRIMARY KEY,
+    -- This is actually required, because a single package can be both a
+    -- strict and substitutable dependency of another package
+    -- (different versions, probably)
+    "dependent" TEXT NOT NULL,
+    "dependency" TEXT NOT NULL,
+    -- Finding dependencies by string comparison feels really inefficient,
+    -- but greatly simplifies the code as some packages are listed as
+    -- dependencies despite not being found in dpkg/status
     "substitutionId" TEXT,
     FOREIGN KEY("dependent") REFERENCES packages("id")
     -- Dependency can't be a foreign key, since there might be packages

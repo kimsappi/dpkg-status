@@ -1,6 +1,15 @@
 from flask import Flask
+
 import modules.dpkgParser as dpkgParser
 from modules.DBConnection import DBConnection
+from routes.api import bp as apiBp
+from routes.html import bp as htmlBp
+
+app = Flask(__name__)
+
+# The routes are specified in these blueprints
+app.register_blueprint(apiBp, url_prefix='/api')
+app.register_blueprint(htmlBp)
 
 if __name__ == '__main__':
 	# Database initialisation
