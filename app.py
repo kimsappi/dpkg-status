@@ -28,4 +28,4 @@ if __name__ == '__main__':
 	# that aren't present in the file.
 	dpkgParser.completePackageInformation(fileData)
 
-	app.run(host='0.0.0.0', port=3000)
+	app.run(host='0.0.0.0', port=3000, debug=True)

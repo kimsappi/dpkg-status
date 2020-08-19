@@ -11,9 +11,10 @@ def index():
 	results = queries.index()
 	return render_template('index.html', packages=results)
 
-@bp.route('/package/<id>')
+@bp.route('/packages/<id>')
 def package(id = 0):
 	"""
 	Route for getting all the information about a single package.
 	"""
 	results = queries.package(id)
+	return render_template('package.html', package=results)
