@@ -1,15 +1,15 @@
-{% if package.deps|length > 0 %}
+{% if package.dependencies|length > 0 %}
 	<details
-	{% if package.deps|length < 6 %}
+	{% if package.dependencies|length < 6 %}
 		open
 	{% endif %}>
-		<summary>{{ package.deps|length }} dependenc{% if package.deps|length > 1 %}ies{% else %}y{% endif %}</summary>
+		<summary>{{ package.dependencies|length }} dependenc{% if package.dependencies|length > 1 %}ies{% else %}y{% endif %}</summary>
 		<ul>
-			{% for dependency in package.deps %}
+			{% for dependency in package.dependencies %}
 				<li>
-					{% if dependency is not iterable %}
-						{% if dependency.link %}
-							<a href="/packages/{{ dependency.name }}">{{ dependency.name }}</a>
+					{% if dependency is mapping %}
+						{% if dependency.id %}
+							<a href="/packages/{{ dependency.id }}">{{ dependency.name }}</a>
 						{% else %}
 							{{ dependency.name }} <span class="not_found">package not found</span>
 						{% endif %}
@@ -18,7 +18,7 @@
 						<ul>
 							{% for dep in dependency %}
 								<li>
-									{% if dep.link %}
+									{% if dep.id %}
 										<a href="/packages/{{ dep.name }}">{{ dep.name }}</a>
 									{% else %}
 										{{ dep.name }} <span class="not_found">package not found</span>

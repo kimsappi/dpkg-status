@@ -1,15 +1,16 @@
-{% if package.strict_reverse_deps|length + package.sub_reverse_deps|length > 0 %}
+{% if package.reverseDependencies|length > 0 %}
 	<details
-	{% if package.strict_reverse_deps|length + package.sub_reverse_deps|length < 6 %}
+	{% if package.reverseDependencies|length < 6 %}
 		open
 	{% endif %}>
-		<summary>{{ package.strict_reverse_deps|length + package.sub_reverse_deps|length }} reverse dependenc{% if package.strict_reverse_deps|length + package.sub_reverse_deps|length > 1 %}ies{% else %}y{% endif %}</summary>
+		<summary>{{ package.reverseDependencies|length }} reverse dependenc{% if package.reverseDependencies|length > 1 %}ies{% else %}y{% endif %}</summary>
 		<ul>
-			{% for dependency in package.strict_reverse_deps %}
+			{% for dependency in package.reverseDependencies %}
 				<li>
 					<a href="/packages/{{ dependency.name }}">{{ dependency.name }}</a>
 				</li>
 			{% endfor %}
+			{#
 			{% for key, value in package.sub_reverse_deps.items() %}
 				<li>
 					<a href="/packages/{{ key }}">{{ key }}</a> depends on one of:
@@ -26,6 +27,7 @@
 					</ul>
 				</li>
 			{% endfor %}
+			#}
 		</ul>
 	</details>
 {% else %}

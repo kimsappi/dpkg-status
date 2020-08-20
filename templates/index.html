@@ -3,9 +3,9 @@
 {% block body %}
 	<h1>List of packages</h1>
 	<ol>
-		{% for name in packages %}
+		{% for package in packages %}
 			<li>
-				<a href="/packages/{{ name[0] }}">{{ name[1] }}</a>
+				<a href="/packages/{{ package.id }}">{{ package.name }}</a>
 			</li>
 		{% endfor %}
 	</ol>
