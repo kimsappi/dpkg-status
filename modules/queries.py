@@ -34,7 +34,7 @@ def separatePackageIdAndName(dependencies: str):
 	ret = []
 	for i in range(0, len(dependencies), 2):
 		depDict = {}
-		depDict['id'] = dependencies[i]
+		depDict['id'] = dependencies[i] if dependencies[i] is not '0' else None
 		depDict['name'] = dependencies[i + 1]
 		ret.append(depDict)
 	return ret
@@ -60,14 +60,14 @@ def package(id: str):
 
 	depsQuery = f"""
 SELECT "name", "version", "description", descriptionSummary,
-		GROUP_CONCAT((SELECT id FROM packages WHERE name=d.dependency) || ' ' || d.dependency, ' ') AS dependencies
+		GROUP_CONCAT((SELECT id FROM packages WHERE "name"=d.dependency UNION SELECT '0' LIMIT 1) || ' ' || d.dependency, ' ') AS dependencies
 	FROM packages AS p
 	OUTER LEFT JOIN dependencies AS d ON d.dependent = p."name"
 	WHERE {condition};
 """
 
 	revDepsQuery = f"""
-SELECT GROUP_CONCAT((SELECT id FROM packages WHERE name=r.dependent) || ' ' || r.dependent, ' ') AS reverseDependencies
+SELECT GROUP_CONCAT((SELECT (SELECT id FROM packages WHERE "name"=r.dependent UNION SELECT '0' LIMIT 1)) || ' ' || r.dependent, ' ') AS reverseDependencies
 	FROM packages AS p
 	OUTER LEFT JOIN dependencies AS r ON r.dependency = p."name"
 	WHERE {condition};

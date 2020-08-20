@@ -1,4 +1,4 @@
-{% if package.reverseDependencies|length > 0 %}
+{% if package.reverseDependencies is not none and package.reverseDependencies|length > 0 %}
 	<details
 	{% if package.reverseDependencies|length < 6 %}
 		open
@@ -7,7 +7,11 @@
 		<ul>
 			{% for dependency in package.reverseDependencies %}
 				<li>
-					<a href="/packages/{{ dependency.name }}">{{ dependency.name }}</a>
+					{% if dependency.id %}
+						<a href="/packages/{{ dependency.name }}">{{ dependency.name }}</a>
+					{% else %}
+						{{ dep.name }} <span class="not_found">- package not found</span>
+					{% endif %}
 				</li>
 			{% endfor %}
 			{#

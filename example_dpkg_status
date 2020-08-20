@@ -8679,6 +8679,27 @@ Description: common error description library
 Homepage: http://e2fsprogs.sourceforge.net
 Original-Maintainer: Theodore Y. Ts'o <tytso@mit.edu>
 
+Package: aaaaatest
+Status: install ok installed
+Priority: optional
+Section: admin
+Installed-Size: 452
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Architecture: amd64
+Version: 0.42
+Depends: aaaaatest-dev, testxyz, testing | four | docker.io | deps, libc6-dev, one-more, hidden-by-default, libc6
+Suggests: gnome-control-center
+Conffiles:
+ /etc/dbus-1/system.d/org.freedesktop.Accounts.conf 06247d62052029ead7d9ec1ef9457f42
+Description: Mock package to show most of the features
+ Something Something
+ .
+ Here's a list:
+  * 1
+  * 2
+Homepage: https://github.com/kimsappi
+Original-Maintainer: Kim Säppi
+
 Package: libaopalliance-java
 Status: install ok installed
 Priority: extra
