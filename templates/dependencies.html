@@ -1,4 +1,4 @@
-{% if package.dependencies|length > 0 %}
+{% if package.dependencies is not none and package.dependencies|length > 0 %}
 	<details
 	{% if package.dependencies|length < 6 %}
 		open

@@ -19,6 +19,7 @@ class Package:
 		self.version = version
 		self.strictDeps = strictDeps
 		self.subDeps = subDeps
+		self.subDepsDict = {}
 
 	def addDepsToDB(self, dbCursor):
 		depTuples = []
@@ -48,6 +49,27 @@ UPDATE "packages"
 """, (self.version, self.descriptionSummary, self.description, self.name))
 		# Add dependencies
 		self.addDepsToDB(dbCursor)
+
+	def addDependency(self, dep: tuple):
+		depDict = {
+			'id': dep[-3] if dep[-3] is not '0' else None,
+			'name': dep[-2]
+		}
+		if not dep[-1]:
+			self.strictDeps.append(depDict)
+		else:
+			if not dep[-1] in self.subDepsDict:
+				self.subDepsDict[dep[-1]] = []
+			self.subDepsDict[dep[-1]].append(depDict)
+
+	def toDict(self):
+		return {
+			'name': self.name,
+			'version': self.version,
+			'descriptionSummary': self.descriptionSummary,
+			'description': self.description,
+			'dependencies': self.strictDeps + list(self.subDepsDict.values())
+		}
 
 	def __lt__(self, other):
 		return self.name <= other.name
