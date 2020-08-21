@@ -89,10 +89,13 @@ SELECT (SELECT id FROM packages WHERE "name"=r.dependent) AS dependentId,
 	OUTER LEFT JOIN dependencies AS r ON r.dependency = p."name"
 	WHERE {condition};
 """
+
+	# Query that will return all other packages that can substitute this as deps
 	cursor.execute(depsQuery, (id,))
 	results = cursor.fetchall()
 	cursor.close()
 
+	# 404 package not found
 	if not len(results):
 		return None
 
@@ -101,6 +104,9 @@ SELECT (SELECT id FROM packages WHERE "name"=r.dependent) AS dependentId,
 
 	cursor = dbConnection.connection.cursor()
 	cursor.execute(revDepsQuery, (id,))
-	reverseResult = cursor.fetchall()
+	reverseResults = cursor.fetchall()
+	
+	package.addReverseDependencies(reverseResults)
+
 	dbConnection.close()
 	return package.toDict()
