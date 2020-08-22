@@ -2,15 +2,20 @@ from typing import List
 from modules.DBConnection import DBConnection
 from modules.Package import Package
 
-def constructPackage(results: List[tuple]) -> Package:
+def constructPackage(results: List[tuple], reverseResults: List[tuple]) -> Package:
 	baseData = results[0]
-	ret = Package(name=baseData[0], version=baseData[1],
+	package = Package(name=baseData[0], version=baseData[1],
 		description=baseData[2], descriptionSummary=baseData[3],
 		strictDeps=[], subDeps=[])
 
 	for dependency in results:
-		ret.addDependency(dependency)
-	return ret
+		package.addDependency(dependency)
+
+	for revDep in reverseResults:
+		if revDep[-1] is None:
+			package.addStrictReverseDependency(revDep)
+
+	return package
 
 def dictifySingle(array: List, columns: List[str]) -> dict:
 	ret = {}
@@ -45,7 +50,7 @@ def separatePackageIdAndName(dependencies: str):
 	ret = []
 	for i in range(0, len(dependencies), 3):
 		depDict = {}
-		depDict['id'] = dependencies[i] if dependencies[i] is not '0' else None
+		depDict['id'] = dependencies[i] if dependencies[i] != '0' else None
 		depDict['name'] = dependencies[i + 1]
 		depDict['subId'] = dependencies[i + 2]
 		ret.append(depDict)
@@ -89,8 +94,15 @@ SELECT (SELECT id FROM packages WHERE "name"=r.dependent) AS dependentId,
 	OUTER LEFT JOIN dependencies AS r ON r.dependency = p."name"
 	WHERE {condition};
 """
-
 	# Query that will return all other packages that can substitute this as deps
+	subRevDepsQuery = f"""
+SELECT (SELECT id FROM packages WHERE "name"=s.dependent) AS dependentId,
+		r.dependent AS dependencyName, s.substitutionId AS dependencySubstitutionId
+	FROM packages AS p
+	OUTER LEFT JOIN dependencies AS s ON s.substitutionId = p."name"
+	WHERE s.substitutionId = ?;
+"""
+
 	cursor.execute(depsQuery, (id,))
 	results = cursor.fetchall()
 	cursor.close()
@@ -100,13 +112,11 @@ SELECT (SELECT id FROM packages WHERE "name"=r.dependent) AS dependentId,
 		return None
 
 	# Initialising a package object with its basic information & dependencies
-	package = constructPackage(results)
 
 	cursor = dbConnection.connection.cursor()
 	cursor.execute(revDepsQuery, (id,))
 	reverseResults = cursor.fetchall()
-	
-	package.addReverseDependencies(reverseResults)
-
 	dbConnection.close()
+	
+	package = constructPackage(results, reverseResults)
 	return package.toDict()

@@ -20,6 +20,8 @@ class Package:
 		self.strictDeps = strictDeps
 		self.subDeps = subDeps
 		self.subDepsDict = {}
+		self.revDeps = []
+		self.revDepsDict = {}
 
 	def addDepsToDB(self, dbCursor):
 		depTuples = []
@@ -52,7 +54,7 @@ UPDATE "packages"
 
 	def addDependency(self, dep: tuple):
 		depDict = {
-			'id': dep[-3] if dep[-3] is not '0' else None,
+			'id': dep[-3] if dep[-3] != '0' else None,
 			'name': dep[-2]
 		}
 		if not dep[-1]:
@@ -62,13 +64,17 @@ UPDATE "packages"
 				self.subDepsDict[dep[-1]] = []
 			self.subDepsDict[dep[-1]].append(depDict)
 
+	def addStrictReverseDependency(self, revDep: tuple):
+		self.revDeps.append({'id': revDep[0], 'name': revDep[1]})
+
 	def toDict(self):
 		return {
 			'name': self.name,
 			'version': self.version,
 			'descriptionSummary': self.descriptionSummary,
 			'description': self.description,
-			'dependencies': self.strictDeps + list(self.subDepsDict.values())
+			'dependencies': self.strictDeps + list(self.subDepsDict.values()),
+			'reverseDependencies': self.revDeps
 		}
 
 	def __lt__(self, other):
