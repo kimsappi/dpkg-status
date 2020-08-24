@@ -10,7 +10,7 @@
 					{% if dependency.id %}
 						<a href="/packages/{{ dependency.name }}">{{ dependency.name }}</a>
 					{% else %}
-						{{ dep.name }} <span class="not_found">- package not found</span>
+						{{ dependency.name }} <span class="not_found">- package not found</span>
 					{% endif %}
 				</li>
 			{% endfor %}

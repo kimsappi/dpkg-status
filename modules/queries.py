@@ -2,7 +2,7 @@ from typing import List
 from modules.DBConnection import DBConnection
 from modules.Package import Package
 
-def constructPackage(results: List[tuple], reverseResults: List[tuple]) -> Package:
+def constructPackage(results: List[tuple], reverseResults: List[tuple], dbConnection: DBConnection) -> Package:
 	baseData = results[0]
 	package = Package(name=baseData[0], version=baseData[1],
 		description=baseData[2], descriptionSummary=baseData[3],
@@ -11,9 +11,25 @@ def constructPackage(results: List[tuple], reverseResults: List[tuple]) -> Packa
 	for dependency in results:
 		package.addDependency(dependency)
 
+	# Query that will return all other packages that can substitute this as deps
+	subRevDepsQuery = f"""
+SELECT (SELECT id FROM packages WHERE "name"=s.dependent) AS dependentId,
+		s.dependent AS dependentName, s.dependency AS dependencyName,
+		s.substitutionId AS dependencySubstitutionId
+	FROM packages AS p
+	OUTER LEFT JOIN dependencies AS s ON s.dependent = p."name"
+	WHERE s.substitutionId = ?;
+"""
+
 	for revDep in reverseResults:
 		if revDep[-1] is None:
 			package.addStrictReverseDependency(revDep)
+		else:
+			cursor = dbConnection.connection.cursor()
+			cursor.execute(subRevDepsQuery, (revDep[-1],))
+			subRevDeps = cursor.fetchall()
+			cursor.close()
+			#package.addSubReverseDependencies(subRevDeps)
 
 	return package
 
@@ -94,14 +110,6 @@ SELECT (SELECT id FROM packages WHERE "name"=r.dependent) AS dependentId,
 	OUTER LEFT JOIN dependencies AS r ON r.dependency = p."name"
 	WHERE {condition};
 """
-	# Query that will return all other packages that can substitute this as deps
-	subRevDepsQuery = f"""
-SELECT (SELECT id FROM packages WHERE "name"=s.dependent) AS dependentId,
-		r.dependent AS dependencyName, s.substitutionId AS dependencySubstitutionId
-	FROM packages AS p
-	OUTER LEFT JOIN dependencies AS s ON s.substitutionId = p."name"
-	WHERE s.substitutionId = ?;
-"""
 
 	cursor.execute(depsQuery, (id,))
 	results = cursor.fetchall()
@@ -116,7 +124,9 @@ SELECT (SELECT id FROM packages WHERE "name"=s.dependent) AS dependentId,
 	cursor = dbConnection.connection.cursor()
 	cursor.execute(revDepsQuery, (id,))
 	reverseResults = cursor.fetchall()
+	cursor.close()
+
+	cursor = dbConnection.connection.cursor()
+	package = constructPackage(results, reverseResults, dbConnection)
 	dbConnection.close()
-	
-	package = constructPackage(results, reverseResults)
 	return package.toDict()

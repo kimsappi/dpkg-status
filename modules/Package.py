@@ -21,7 +21,7 @@ class Package:
 		self.subDeps = subDeps
 		self.subDepsDict = {}
 		self.revDeps = []
-		self.revDepsDict = {}
+		self.subRevDeps = {}
 
 	def addDepsToDB(self, dbCursor):
 		depTuples = []
@@ -66,6 +66,9 @@ UPDATE "packages"
 
 	def addStrictReverseDependency(self, revDep: tuple):
 		self.revDeps.append({'id': revDep[0], 'name': revDep[1]})
+
+	#def addSubReverseDependencies(self, subRevDeps: List[tuple]):
+		#self.subRevDeps[0][1]'({'id': revDep[0], 'name': revDep[1]})
 
 	def toDict(self):
 		return {
