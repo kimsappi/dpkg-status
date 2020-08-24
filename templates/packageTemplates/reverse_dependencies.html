@@ -8,41 +8,19 @@
 			{% for dependency in package.reverseDependencies %}
 				<li>
 					{% if dependency is mapping %}
-						{% if dependency.id %}
-							<a href="/packages/{{ dependency.id }}">{{ dependency.name }}</a>
-						{% else %}
-							{{ dependency.name }} <span class="not_found">- package not found</span>
-						{% endif %}
+						{{ packageLink.dependencyLink(dependency) }}
 					{% else %}
-						<a href="/packages/{{ dependency[0].dependentId }}">{{ dependency[0].dependentName }}</a> depends on one of:
+						{{ packageLink.dependencyLink(dependency) }}{{ dependency[0].dependentName }}</a> depends on one of:
 						<ul>
 							{% for i in range(1, dependency|length) %}
 								<li>
-									<a href="/packages/{{ dependency[i].id }}">{{ dependency[i].name }}</a>
+									{{ packageLink.dependencyLink(dependency) }}
 								</li>
 							{% endfor %}
 						</ul>
 					{% endif %}
 				</li>
 			{% endfor %}
-			{#
-			{% for key, value in package.sub_reverse_deps.items() %}
-				<li>
-					<a href="/packages/{{ key }}">{{ key }}</a> depends on one of:
-					<ul>
-						{% for dep in value %}
-							<li>
-								{% if dep.link %}
-									<a href="/packages/{{ dep.name }}">{{ dep.name }}</a>
-								{% else %}
-									{{ dep.name }} <span class="not_found">package not found</span>
-								{% endif %}
-							</li>
-						{% endfor %}
-					</ul>
-				</li>
-			{% endfor %}
-			#}
 		</ul>
 	</details>
 {% else %}

@@ -32,6 +32,7 @@ CREATE VIEW IF NOT EXISTS "dependentIdAndName" AS
 
 DROP VIEW IF EXISTS "dependencyIdAndNameAndSubId";
 CREATE VIEW IF NOT EXISTS "dependencyIdAndNameAndSubId" AS
-    SELECT DISTINCT p.id AS id, d.dependency AS "name", d.substitutionId AS substitutionId
+    SELECT DISTINCT p.id AS id, d.dependency AS "dependency",
+            d.substitutionId AS substitutionId, d.dependent AS "dependent"
         FROM dependencies AS d
             LEFT OUTER JOIN packages AS p ON d.dependency = p."name";

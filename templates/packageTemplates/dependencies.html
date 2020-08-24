@@ -8,21 +8,13 @@
 			{% for dependency in package.dependencies %}
 				<li>
 					{% if dependency is mapping %}
-						{% if dependency.id %}
-							<a href="/packages/{{ dependency.id }}">{{ dependency.name }}</a>
-						{% else %}
-							{{ dependency.name }} <span class="not_found">- package not found</span>
-						{% endif %}
+						{{ packageLink.dependencyLink(dependency) }}
 					{% else %}
 						One of:
 						<ul>
 							{% for dep in dependency %}
 								<li>
-									{% if dep.id %}
-										<a href="/packages/{{ dep.name }}">{{ dep.name }}</a>
-									{% else %}
-										{{ dep.name }} <span class="not_found">package not found</span>
-									{% endif %}
+									{{ packageLink.dependencyLink(dep) }}
 								</li>
 							{% endfor %}
 						</ul>
