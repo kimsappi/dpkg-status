@@ -10,11 +10,11 @@
 					{% if dependency is mapping %}
 						{{ packageLink.dependencyLink(dependency) }}
 					{% else %}
-						{{ packageLink.dependencyLink(dependency) }}{{ dependency[0].dependentName }}</a> depends on one of:
+						{{ packageLink.dependencyLink(dependency[0]) }}</a> depends on one of:
 						<ul>
 							{% for i in range(1, dependency|length) %}
 								<li>
-									{{ packageLink.dependencyLink(dependency) }}
+									{{ packageLink.dependencyLink(dependency[i]) }}
 								</li>
 							{% endfor %}
 						</ul>

@@ -1,9 +1,15 @@
 {% macro dependencyLink(dependency) %}
 
-	{% if dependency.id %}
-		<a href="/packages/{{ dependency.id }}">{{ dependency.name }}</a>
+	{% if dependency.name %}
+		{% set name, id = dependency.name, dependency.id %}
 	{% else %}
-		{{ dependency.name }} <span class="not_found">- package not found</span>
+		{% set name, id = dependency.dependentName, dependency.dependentId %}
+	{% endif %}
+
+	{% if id %}
+		<a href="/packages/{{ id }}">{{ name }}</a>
+	{% else %}
+		{{ name }} <span class="not_found">- package not found</span>
 	{% endif %}
 
 {% endmacro %}

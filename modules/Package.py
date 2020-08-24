@@ -54,6 +54,8 @@ UPDATE "packages"
 
 	def addDependency(self, dep: tuple):
 		depDict = {
+			# '0' as id means the package isn't in packages, should be None
+			# but SQLite doesn't work as expected
 			'id': dep[-3] if dep[-3] != '0' else None,
 			'name': dep[-2]
 		}
@@ -65,7 +67,8 @@ UPDATE "packages"
 			self.subDepsDict[dep[-1]].append(depDict)
 
 	def addStrictReverseDependency(self, revDep: tuple):
-		self.revDeps.append({'id': revDep[0], 'name': revDep[1]})
+		if (revDep[1]):
+			self.revDeps.append({'id': revDep[0], 'name': revDep[1]})
 
 	def addSubReverseDependencies(self, revDep: tuple, subRevDeps: List[tuple]):
 		revDepKey = f'{revDep[0]} {revDep[1]}'

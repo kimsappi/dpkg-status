@@ -13,7 +13,7 @@ def constructPackage(results: List[tuple], reverseResults: List[tuple], dbConnec
 
 	# Query that will return all other packages that can substitute this as deps
 	subRevDepsQuery = f"""
-SELECT id, dependent
+SELECT id, dependency
 	FROM dependencyIdAndNameAndSubId
 	WHERE substitutionId = ?;
 """
