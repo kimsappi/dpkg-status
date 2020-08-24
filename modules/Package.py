@@ -67,8 +67,17 @@ UPDATE "packages"
 	def addStrictReverseDependency(self, revDep: tuple):
 		self.revDeps.append({'id': revDep[0], 'name': revDep[1]})
 
-	#def addSubReverseDependencies(self, subRevDeps: List[tuple]):
-		#self.subRevDeps[0][1]'({'id': revDep[0], 'name': revDep[1]})
+	def addSubReverseDependencies(self, revDep: tuple, subRevDeps: List[tuple]):
+		revDepKey = f'{revDep[0]} {revDep[1]}'
+		self.subRevDeps[revDepKey] = [{
+			'dependentId': revDep[0],
+			'dependentName': revDep[1]
+		}]
+		for subDep in subRevDeps:
+			self.subRevDeps[revDepKey].append({
+				'id': subDep[0],
+				'name': subDep[1]
+			})
 
 	def toDict(self):
 		return {
@@ -77,7 +86,7 @@ UPDATE "packages"
 			'descriptionSummary': self.descriptionSummary,
 			'description': self.description,
 			'dependencies': self.strictDeps + list(self.subDepsDict.values()),
-			'reverseDependencies': self.revDeps
+			'reverseDependencies': self.revDeps + list(self.subRevDeps.values())
 		}
 
 	def __lt__(self, other):

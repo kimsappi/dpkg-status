@@ -23,3 +23,15 @@ CREATE TABLE IF NOT EXISTS "dependencies"(
     -- Dependency can't be a foreign key, since there might be packages
     -- that are listed as dependencies, but can't be found in the file
 );
+
+DROP VIEW IF EXISTS "dependentIdAndName";
+CREATE VIEW IF NOT EXISTS "dependentIdAndName" AS
+    SELECT p.id AS id, p."name" AS "name"
+        FROM packages AS p
+            INNER JOIN dependencies AS d ON d.dependent = p."name";
+
+DROP VIEW IF EXISTS "dependencyIdAndNameAndSubId";
+CREATE VIEW IF NOT EXISTS "dependencyIdAndNameAndSubId" AS
+    SELECT DISTINCT p.id AS id, d.dependency AS "name", d.substitutionId AS substitutionId
+        FROM dependencies AS d
+            LEFT OUTER JOIN packages AS p ON d.dependency = p."name";

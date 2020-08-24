@@ -13,12 +13,9 @@ def constructPackage(results: List[tuple], reverseResults: List[tuple], dbConnec
 
 	# Query that will return all other packages that can substitute this as deps
 	subRevDepsQuery = f"""
-SELECT (SELECT id FROM packages WHERE "name"=s.dependent) AS dependentId,
-		s.dependent AS dependentName, s.dependency AS dependencyName,
-		s.substitutionId AS dependencySubstitutionId
-	FROM packages AS p
-	OUTER LEFT JOIN dependencies AS s ON s.dependent = p."name"
-	WHERE s.substitutionId = ?;
+SELECT id, name
+	FROM dependencyIdAndNameAndSubId
+	WHERE substitutionId = ?;
 """
 
 	for revDep in reverseResults:
@@ -29,7 +26,7 @@ SELECT (SELECT id FROM packages WHERE "name"=s.dependent) AS dependentId,
 			cursor.execute(subRevDepsQuery, (revDep[-1],))
 			subRevDeps = cursor.fetchall()
 			cursor.close()
-			#package.addSubReverseDependencies(subRevDeps)
+			package.addSubReverseDependencies(revDep, subRevDeps)
 
 	return package
 
