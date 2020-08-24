@@ -53,6 +53,10 @@ UPDATE "packages"
 		self.addDepsToDB(dbCursor)
 
 	def addDependency(self, dep: tuple):
+		# This is called even if there are no dependencies
+		if not dep[-2]:
+			return
+
 		depDict = {
 			# '0' as id means the package isn't in packages, should be None
 			# but SQLite doesn't work as expected

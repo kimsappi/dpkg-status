@@ -70,17 +70,17 @@ def completePackageInformation(lines: str):
 	inDescription = False
 	description = ""
 	for line in lines:
-		if re.match("Package: ", line):
+		if re.match("package: ", line.lower()):
 			name = line[line.find(" ") + 1:-1]
 			inDescription = False
 
-		elif re.match("Version: ", line):
+		elif re.match("version: ", line.lower()):
 			version = line[line.find(" ") + 1:-1]
 
-		elif re.match("(Pre-)?Depends: ", line):
+		elif re.match("(pre-)?depends: ", line.lower()):
 			parseDependencies(line, strictDeps, subDeps)
 
-		elif re.match("Description: ", line):
+		elif re.match("description: ", line.lower()):
 			descriptionSummary = line[line.find(" ") + 1:-1]
 			inDescription = True
 
