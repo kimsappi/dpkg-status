@@ -65,10 +65,9 @@ def completePackageInformation(lines: str):
 	dbConnection = DBConnection()
 	dbCursor = dbConnection.connection.cursor()
 
-	strictDeps = []
-	subDeps = []
+	strictDeps, subDeps = [], []
 	inDescription = False
-	description = ""
+	description, descriptionSummary, name = '', '', ''
 	for line in lines:
 		if re.match("package: ", line.lower()):
 			name = line[line.find(" ") + 1:-1]
@@ -84,7 +83,7 @@ def completePackageInformation(lines: str):
 			descriptionSummary = line[line.find(" ") + 1:-1]
 			inDescription = True
 
-		elif re.match(r"\n", line) or (inDescription and not re.match(r" ", line)):
+		elif re.match(r"\n", line):
 			thisPkg = Package(
 				name=name,
 				version=version,
@@ -95,17 +94,28 @@ def completePackageInformation(lines: str):
 			)
 			thisPkg.addToDB(dbCursor)
 			subDeps, strictDeps = [], []
-			description = ""
+			description, descriptionSummary, name = '', '', ''
 			inDescription = False
 
 		# Multiline descriptions handled here
-		elif inDescription:
+		elif inDescription and re.match(r" ", line):
 			# Maintainer wants an empty line here
 			if re.match(r" .\n", line):
 				description += "\n"
 			# Otherwise just concatenate
 			else:
 				description += line[1:]
+	else:
+		if len(name):
+			thisPkg = Package(
+				name=name,
+				version=version,
+				descriptionSummary=descriptionSummary,
+				description=description,
+				strictDeps=strictDeps,
+				subDeps=subDeps
+			)
+			thisPkg.addToDB(dbCursor)
 
 	dbConnection.connection.commit()
 	dbConnection.close()
