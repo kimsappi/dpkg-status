@@ -41,6 +41,22 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<th>Tags</th>
+			<td>
+				<ul>
+					{% for tag in package.tags %}
+						<li>{{ tag }}</li>
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
 	</table>
+	<form method='post'>
+		<label for='tag'>Add a new tag:</label>
+		<input type='text' name='tag' pattern='^[a-zA-Z0-9 \-]{1,30}$'>
+		<input type='text' name='id' value='{{ package.id }}'>
+		<input type='submit' value='OK'>
+	</form>
 	<p><a href="javascript:history.back()">Go Back</a></p>
 {% endblock body %}

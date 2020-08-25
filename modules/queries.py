@@ -6,7 +6,7 @@ def constructPackage(results: List[tuple], reverseResults: List[tuple], dbConnec
 	baseData = results[0]
 	package = Package(name=baseData[0], version=baseData[1],
 		description=baseData[2], descriptionSummary=baseData[3],
-		strictDeps=[], subDeps=[])
+		strictDeps=[], subDeps=[], tags=baseData[4], id=baseData[5])
 
 	for dependency in results:
 		package.addDependency(dependency)
@@ -91,11 +91,11 @@ def package(id: str):
 	# Query that gets all the information about a package, plus the following
 	# about all of its dependencies: id, name, substitutionId
 	depsQuery = f"""
-SELECT "name", "version", "description", descriptionSummary,
+SELECT "name", "version", "description", descriptionSummary, tagsString, p.id,
 		(SELECT id FROM packages WHERE "name"=d.dependency UNION SELECT '0' LIMIT 1) AS dependencyId,
 		d.dependency AS dependencyName, d.substitutionId AS dependencySubstitutionId
-	FROM packages AS p
-	OUTER LEFT JOIN dependencies AS d ON d.dependent = p."name"
+	FROM packageAndConcatenatedTags AS p
+		OUTER LEFT JOIN dependencies AS d ON d.dependent = p."name"
 	WHERE {condition};
 """
 	# Query that gets all the id and name of all packages that depend on this
@@ -104,7 +104,7 @@ SELECT "name", "version", "description", descriptionSummary,
 SELECT (SELECT id FROM packages WHERE "name"=r.dependent) AS dependentId,
 		r.dependent AS dependencyName, r.substitutionId AS dependencySubstitutionId
 	FROM packages AS p
-	OUTER LEFT JOIN dependencies AS r ON r.dependency = p."name"
+		OUTER LEFT JOIN dependencies AS r ON r.dependency = p."name"
 	WHERE {condition};
 """
 

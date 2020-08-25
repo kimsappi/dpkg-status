@@ -1,4 +1,5 @@
 from typing import List
+from modules.utils import tagsStringParser
 
 class Package:
 	"""
@@ -11,7 +12,8 @@ class Package:
 	"""
 	def __init__(
 		self, name: str, description: str, descriptionSummary: str,
-		version: str, strictDeps: List, subDeps: List
+		version: str, strictDeps: List, subDeps: List, tags: str = None,
+		id: int = 0
 	):
 		self.name = name
 		self.description = description
@@ -22,6 +24,8 @@ class Package:
 		self.subDepsDict = {}
 		self.revDeps = []
 		self.subRevDeps = {}
+		self.tags = tagsStringParser(tags)
+		self.id = id
 
 	def addDepsToDB(self, dbCursor):
 		depTuples = []
@@ -88,12 +92,14 @@ UPDATE "packages"
 
 	def toDict(self):
 		return {
+			'id': self.id,
 			'name': self.name,
 			'version': self.version,
 			'descriptionSummary': self.descriptionSummary,
 			'description': self.description,
 			'dependencies': self.strictDeps + list(self.subDepsDict.values()),
-			'reverseDependencies': self.revDeps + list(self.subRevDeps.values())
+			'reverseDependencies': self.revDeps + list(self.subRevDeps.values()),
+			'tags': self.tags
 		}
 
 	def __lt__(self, other):

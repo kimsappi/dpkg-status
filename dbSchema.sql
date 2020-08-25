@@ -24,6 +24,14 @@ CREATE TABLE IF NOT EXISTS "dependencies"(
     -- that are listed as dependencies, but can't be found in the file
 );
 
+DROP TABLE IF EXISTS tags;
+CREATE TABLE IF NOT EXISTS tags(
+    package INTEGER,
+    tag TEXT NOT NULL,
+    PRIMARY KEY(package, tag)
+    FOREIGN KEY(package) REFERENCES packages(id)
+);
+
 DROP VIEW IF EXISTS "dependentIdAndName";
 CREATE VIEW IF NOT EXISTS "dependentIdAndName" AS
     SELECT p.id AS id, p."name" AS "name"
@@ -36,3 +44,12 @@ CREATE VIEW IF NOT EXISTS "dependencyIdAndNameAndSubId" AS
             d.substitutionId AS substitutionId, d.dependent AS "dependent"
         FROM dependencies AS d
             LEFT OUTER JOIN packages AS p ON d.dependency = p."name";
+
+DROP VIEW IF EXISTS "packageAndConcatenatedTags";
+CREATE VIEW IF NOT EXISTS "packageAndConcatenatedTags" AS
+    SELECT p.id AS id, p."name" AS "name", p."version" AS "version",
+            p."description" AS "description", p.descriptionSummary AS descriptionSummary,
+            GROUP_CONCAT(t.tag, "#CONCAT_PLACEHOLDER#") AS tagsString
+        FROM packages AS p
+            LEFT OUTER JOIN tags AS t ON p.id = t.package
+        GROUP BY p.id;
