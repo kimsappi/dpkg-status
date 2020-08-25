@@ -10,7 +10,8 @@ def index():
 	Route for getting all the package names for the front page.
 	"""
 	results = queries.index()
-	return render_template('index.html', packages=results)
+	tags = queries.tags()
+	return render_template('index.html', packages=results, tags=tags, currentFilter=None)
 
 @bp.route('/packages/<id>', methods=['GET'])
 def package(id = 0):
@@ -28,3 +29,12 @@ def addTag(id = 0):
 	insertQueries.addTag(request.form)
 	results = queries.package(id)
 	return render_template('package.html', package=results)
+
+@bp.route('/tagged/<tag>')
+def tagged(tag = ''):
+	"""
+	Route for getting list of packages tagged with {tag}
+	"""
+	results = queries.tagged(tag)
+	tags = queries.tags()
+	return render_template('index.html', packages=results, tags=tags, currentFilter=tag)

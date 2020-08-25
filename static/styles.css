@@ -1,0 +1,86 @@
+a:link {
+	color: mediumblue;
+}
+
+a:visited {
+	color: #483d8b;
+}
+
+a:hover, a:active {
+	color: green;
+}
+
+body {
+	background-color: khaki;
+	color: indigo;
+	font-family: sans-serif;
+}
+
+details > summary::-webkit-details-marker {
+	display: none;
+}
+
+details > summary:after {
+	content: "+";
+	padding-left: 5px;
+	font-weight: 900;
+	color: blue;
+	text-shadow: 1px 0px currentColor, 0px 1px currentColor, 1px 1px currentColor;
+}
+
+details[open] > summary:after {
+	content: "-";
+	color: red;
+}
+
+pre {
+	white-space: pre-wrap;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th, td {
+	vertical-align: top;
+	border-bottom: 1px solid black;
+	padding: 5px;
+}
+
+th {
+	text-align: right;
+	word-wrap: normal;
+	width: 1px;
+	border-right: 1px dashed black;
+}
+
+tr:last-child > th, tr:last-child > td {
+	border-bottom: none;
+}
+
+ul {
+	margin-top: 0px;
+	margin-bottom: 2px;
+}
+
+.not_found, .italic {
+	font-style: italic;
+}
+
+.flexRow {
+	display: flex;
+	flex-direction: row;
+}
+
+.noWrap {
+	flex-wrap: nowrap;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+#filterList {
+	list-style-type: none;
+	padding-left: 0;
+}

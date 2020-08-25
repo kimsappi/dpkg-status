@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 
 {% block body %}
-	<h1>List of packages</h1>
-	<ol>
-		{% for package in packages %}
-			<li>
-				<a href="/packages/{{ package.id }}">{{ package.name }}</a>
-			</li>
-		{% endfor %}
-	</ol>
+<div class='container flexRow noWrap'>
+	<div>
+		<h1>List of packages</h1>
+
+		<ol>
+			{% for package in packages %}
+				<li>
+					<a href="/packages/{{ package.id }}">{{ package.name }}</a>
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+
+	<div>
+		{% include 'tagsFilter.html' %}
+	</div>
+
+</div>
 {% endblock body %}

@@ -44,11 +44,15 @@
 		<tr>
 			<th>Tags</th>
 			<td>
-				<ul>
-					{% for tag in package.tags %}
-						<li>{{ tag }}</li>
-					{% endfor %}
-				</ul>
+				{% if package.tags|length %}
+					<ul>
+						{% for tag in package.tags %}
+							<li>{{ tag }}</li>
+						{% endfor %}
+					</ul>
+				{% else %}
+				None
+				{% endif %}
 			</td>
 		</tr>
 	</table>

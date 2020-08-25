@@ -2,6 +2,31 @@ from typing import List
 from modules.DBConnection import DBConnection
 from modules.Package import Package
 
+def tags():
+	dbConnection = DBConnection()
+	cursor = dbConnection.connection.cursor()
+	cursor.execute('SELECT DISTINCT tag FROM tags ORDER BY tag ASC;')
+	results = cursor.fetchall()
+	dbConnection.close()
+	ret = [tag[0] for tag in results]
+	return ret
+
+def tagged(tag):
+	dbConnection = DBConnection()
+	cursor = dbConnection.connection.cursor()
+	print(tag)
+	cursor.execute("""
+SELECT p."id", p."name"
+	FROM packages AS p
+		INNER JOIN tags AS t ON p.id = t.package
+	WHERE t.tag = ?
+	ORDER BY "name" ASC;
+""", (tag,))
+	results = cursor.fetchall()
+	cols = cursor.description
+	dbConnection.close()
+	return dictify(results, cols)
+
 def constructPackage(results: List[tuple], reverseResults: List[tuple], dbConnection: DBConnection) -> Package:
 	baseData = results[0]
 	package = Package(name=baseData[0], version=baseData[1],

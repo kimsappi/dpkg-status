@@ -1,18 +1,15 @@
 from modules.DBConnection import DBConnection
 
-def realStrip(s: str) -> str:
-	return ''.join(str(s).split())
-
 def addTag(data):
 	data = data.to_dict()
-	if not data['id'] or not data['tag']:
+	if 'id' not in data.keys() or 'tag' not in data.keys() or len((str(data['tag'])).strip()) < 1:
 		return False
 
 	query = "INSERT INTO tags (package, tag) VALUES (?, ?);"
 	dbConnection = DBConnection()
 	cursor = dbConnection.connection.cursor()
 	try:
-		cursor.execute(query, (int(data['id']), realStrip(data['tag'])))
+		cursor.execute(query, (int(data['id']), str(data['tag']).strip()))
 		dbConnection.connection.commit()
 		ret = True
 	except:
