@@ -14,7 +14,6 @@ def tags():
 def tagged(tag):
 	dbConnection = DBConnection()
 	cursor = dbConnection.connection.cursor()
-	print(tag)
 	cursor.execute("""
 SELECT p."id", p."name"
 	FROM packages AS p

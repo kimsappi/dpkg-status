@@ -16,7 +16,6 @@ app.register_blueprint(htmlBp)
 if __name__ == '__main__':
 	dbConnection = DBConnection(connect=False)
 	# Database initialisation if not initialised
-	print(dbConnection.getFilename())
 	if not os.path.isfile(dbConnection.getFilename()):
 		# Create SQLite database file
 		fileCreationSuccess = dbConnection.createDatabaseFile()
