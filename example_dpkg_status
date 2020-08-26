@@ -1,3 +1,44 @@
+Description: Common utilities from the Apache Web Services Project
+ This is a small collection of utility classes, that allow high
+ performance XML processing based on SAX.
+Package: aaatest
+Status: install ok installed
+Priority: optional
+Section: java
+Installed-Size: 101
+Maintainer: Test
+Architecture: all
+Version: 0.0.1
+Original-Maintainer: Test
+Homepage: https://github.com/kimsappi
+
+Package: aabtest
+Status: install ok installed
+Priority: optional
+Section: java
+Installed-Size: 101
+Maintainer: Test
+Description: asd
+Architecture: all
+Version: 0.0.1
+Pre-Depends: aaactest | aaktest
+Depends: aaadtest
+Original-Maintainer: Test
+Homepage: https://github.com/kimsappi
+
+Package: aaactest
+Status: install ok installed
+Priority: optional
+Section: java
+Installed-Size: 101
+Maintainer: Test
+Description: asd
+Architecture: all
+Version: 0.0.1
+Depends: sl
+Original-Maintainer: Test
+Homepage: https://github.com/kimsappi
+
 Package: libws-commons-util-java
 Status: install ok installed
 Priority: optional
@@ -8678,27 +8719,6 @@ Description: common error description library
  have the problems identified with mechanisms commonly in use.
 Homepage: http://e2fsprogs.sourceforge.net
 Original-Maintainer: Theodore Y. Ts'o <tytso@mit.edu>
-
-Package: aaaaatest
-Status: install ok installed
-Priority: optional
-Section: admin
-Installed-Size: 452
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Architecture: amd64
-Version: 0.42
-Depends: aaaaatest-dev, testxyz, testing | four | docker.io | deps, libc6-dev, one-more, hidden-by-default, libc6
-Suggests: gnome-control-center
-Conffiles:
- /etc/dbus-1/system.d/org.freedesktop.Accounts.conf 06247d62052029ead7d9ec1ef9457f42
-Description: Mock package to show most of the features
- Something Something
- .
- Here's a list:
-  * 1
-  * 2
-Homepage: https://github.com/kimsappi
-Original-Maintainer: Kim Säppi
 
 Package: libaopalliance-java
 Status: install ok installed
