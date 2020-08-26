@@ -80,6 +80,8 @@ input {
 input[type=text] {
 	background-color: #eeeeff;
 	border-radius: 0.5em;
+	padding: 0.5em;
+	border: 1px solid black;
 }
 
 input[type=submit] {
@@ -87,6 +89,8 @@ input[type=submit] {
 	font-weight: bold;
 	background-color: #ccffcc;
 	border-radius: 0.5em;
+	border: 1px solid black;
+	padding: 0.3em;
 }
 
 header {

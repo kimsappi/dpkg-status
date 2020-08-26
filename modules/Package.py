@@ -16,7 +16,6 @@ class Package:
 		id: int = 0
 	):
 		self.name = name
-		self.description = description
 		self.descriptionSummary = descriptionSummary
 		self.version = version
 		self.strictDeps = strictDeps
@@ -26,6 +25,10 @@ class Package:
 		self.subRevDeps = {}
 		self.tags = tagsStringParser(tags)
 		self.id = id
+		if len(description) > 0 and description[-1] == '\n':
+			self.description = description[:-1]
+		else:
+			self.description = description
 
 	def addDepsToDB(self, dbCursor):
 		depTuples = []

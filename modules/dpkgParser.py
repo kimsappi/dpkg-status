@@ -42,8 +42,6 @@ class DpkgParser:
 		dbConnection.connection.commit()
 		dbConnection.close()
 
-	
-
 	def completePackageInformation(self):
 		"""
 		Traverse file again to read and add all the other parsed data
