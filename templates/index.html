@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class='container flexRow noWrap' id='indexContainer'>
-	<div>
-		<h1>List of packages</h1>
+<div class='flexRow noWrap spaceBetween' id='indexContainer'>
+	<div class='container'>
+		<h1>List of packages{% if currentFilter %} tagged with <span class='italic'>{{currentFilter}}</span>{% endif %}</h1>
 
 		<ol>
 			{% for package in packages %}
@@ -14,7 +14,7 @@
 		</ol>
 	</div>
 
-	<div id='filtersContainer'>
+	<div class='container'>
 		{% include 'tagsFilter.html' %}
 	</div>
 

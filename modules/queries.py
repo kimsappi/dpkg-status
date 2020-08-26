@@ -25,7 +25,7 @@ SELECT p."id", p."name"
 	results = cursor.fetchall()
 	cols = cursor.description
 	dbConnection.close()
-	return dictify(results, cols)
+	return dictify(results, cols) or []
 
 def constructPackage(results: List[tuple], reverseResults: List[tuple], dbConnection: DBConnection) -> Package:
 	baseData = results[0]

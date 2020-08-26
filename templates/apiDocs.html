@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}API{% endblock title %}
+
+{% block body %}
+	<div class='container'>
+		<h1>API documentation</h1>
+		<p>There is also a JSON API available, providing the same functionality as the HTML interface.</p>
+		<h2>Endpoints</h2>
+
+		<div class='endpointContainer'>
+			<h2 class='monospace'>GET /api/packages<br>GET /api/</h2>
+			<p>Get a list of all package IDs and names.</p>
+			<details>
+				<summary>Example output</summary>
+				<pre class='monospace'>
+[
+	{
+		"id": 374, 
+		"name": "aaaaatest"
+	}, 
+	{
+		"id": 163, 
+		"name": "accountsservice"
+	}, 
+	{
+		"id": 404, 
+		"name": "acpid"
+	}, 
+	{
+		"id": 254, 
+		"name": "adduser"
+	}
+]
+				</pre>
+			</details>
+		</div>
+
+		<div class='endpointContainer'>
+			<h2 class='monospace'>GET /api/packages/:id<br>GET /api/packages/:name</h2>
+			<p>Get detailed information about a single package by its ID or name.</p>
+			<details>
+				<summary>Example output</summary>
+				<pre class='monospace'>
+{
+	"dependencies": [
+		{
+		"id": 621, 
+		"name": "libc6"
+		}, 
+		{
+		"id": 187, 
+		"name": "python"
+		}, 
+		{
+		"id": 71, 
+		"name": "lsb-base"
+		}, 
+		{
+		"id": 39, 
+		"name": "initramfs-tools"
+		}, 
+		{
+		"id": 13, 
+		"name": "debconf"
+		}, 
+		{
+		"id": 501, 
+		"name": "dpkg"
+		}, 
+		[
+		{
+			"id": 13, 
+			"name": "debconf"
+		}, 
+		{
+			"id": null, 
+			"name": "debconf-2.0"
+		}
+		]
+	], 
+	"description": "This provides the system initialization scripts needed to use the\nAppArmor Mandatory Access Control system, including the AppArmor Parser\nwhich is required to convert AppArmor text profiles into machine-readable\npolicies that are loaded into the kernel for use with the AppArmor Linux\nSecurity Module.\n", 
+	"descriptionSummary": "User-space parser utility for AppArmor", 
+	"id": 656, 
+	"name": "apparmor", 
+	"reverseDependencies": [], 
+	"tags": [], 
+	"version": "2.7.102-0ubuntu3.7"
+}
+				</pre>
+			</details>
+		</div>
+
+		<div class='endpointContainer'>
+			<h2 class='monospace'>POST /api/addTag</h2>
+			<p>Add a tag to a package by sending a JSON-encoded string, e.g. <span class='monospace'>{"id":123,"tag":"abc"}</span>.</p>
+			<p>The request's content type must be <span class='monospace'>application/json</span>.</p>
+			<details>
+				<summary>Example output</summary>
+					<div>On success: <pre class='monospace'>OK</pre></div>
+					<div>On failure: <pre class='monospace'>error</pre></div>
+			</details>
+		</div>
+
+		<div class='endpointContainer'>
+			<h2 class='monospace'>GET /api/tagged/:tag</h2>
+			<p>Get a list of packages IDs and names for packages tagged with a specific tag.</p>
+			<details>
+				<summary>Example output</summary>
+				<pre class='monospace'>
+[
+	{
+		"id": 13, 
+		"name": "debconf"
+	}, 
+	{
+		"id": 501, 
+		"name": "dpkg"
+	}, 
+	{
+		"id": 111, 
+		"name": "install-info"
+	}, 
+	{
+		"id": 621, 
+		"name": "libc6"
+	}, 
+	{
+		"id": 271, 
+		"name": "libgcc1"
+	}
+]
+				</pre>
+			</details>
+		</div>
+
+	</div>
+{% endblock body %}

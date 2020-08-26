@@ -1,7 +1,8 @@
 from modules.DBConnection import DBConnection
 
 def addTag(data):
-	data = data.to_dict()
+	if type(data) is not dict:
+		data = data.to_dict()
 	if 'id' not in data.keys() or 'tag' not in data.keys() or len((str(data['tag'])).strip()) < 1:
 		return False
 

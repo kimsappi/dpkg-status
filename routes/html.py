@@ -39,3 +39,10 @@ def tagged(tag = ''):
 	results = queries.tagged(tag)
 	tags = queries.tags()
 	return render_template('index.html', packages=results, tags=tags, currentFilter=tag)
+
+@bp.route('/apiDocs')
+def apiDocs():
+	"""
+	Route for API documentation
+	"""
+	return render_template('apiDocs.html')

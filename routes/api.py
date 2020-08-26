@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import modules.queries as queries
 import modules.insertQueries as insertQueries
 
@@ -21,15 +21,18 @@ def package(id = 0):
 	results = queries.package(id)
 	return jsonify(results)
 
-@bp.route('/packages/<id>', methods=['POST'])
+@bp.route('/addTag', methods=['POST'])
 def addTag(id = 0):
 	"""
 	Route for adding a tag to a package
 	"""
-	success = insertQueries.addTag(request.form)
-	if success:
-		ret = 'OK'
-	else:
+	try:
+		success = insertQueries.addTag(request.json)
+		if success:
+			ret = 'OK'
+		else:
+			ret = 'error'
+	except:
 		ret = 'error'
 	return jsonify(ret)	
 
