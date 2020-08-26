@@ -1,6 +1,6 @@
 from flask import Flask
 
-import modules.dpkgParser as dpkgParser
+from modules.DpkgParser import DpkgParser
 from modules.DBConnection import DBConnection
 from routes.api import bp as apiBp
 from routes.html import bp as htmlBp
@@ -20,12 +20,12 @@ if __name__ == '__main__':
 	dbConnection.close()
 
 	# Reading the file into a string
-	fileData = dpkgParser.readFile()
+	pkgData = DpkgParser()
 	# Initialising all the packages as names in the DB
-	dpkgParser.initialisePackages(fileData)
+	pkgData.initialisePackages()
 	# Completing all the other information.
 	# The file has to be traversed twice, because there might be dependencies
 	# that aren't present in the file.
-	dpkgParser.completePackageInformation(fileData)
+	pkgData.completePackageInformation()
 
 	app.run(host='0.0.0.0', port=3000, debug=True)
