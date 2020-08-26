@@ -1,14 +1,26 @@
+import os
 import sqlite3
 
 class DBConnection:
-	def __init__(self):
+	def __init__(self, connect: bool = True):
 		self.connection = None
-		try:
-			self.connection = sqlite3.connect('database')
+		self._filename = 'database'
+		if connect:
+			try:
+				self.connection = sqlite3.connect(self._filename)
+			except:
+				pass
 
-		except sqlite3.Error as e:
-			print(e)
+	def createDatabaseFile(self):
+		try:
+			open(self._filename, 'w+')
+			return True
+		except:
+			return False
 
 	def close(self):
 		if self.connection:
 			self.connection.close()
+
+	def getFilename(self):
+		return self._filename
