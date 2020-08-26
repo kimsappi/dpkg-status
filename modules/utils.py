@@ -1,6 +1,8 @@
 import re
 from typing import List
 
+from modules.DBConnection import DBConnection
+
 def tagsStringParser(tagsString: str) -> List[str]:
 	if not tagsString:
 		return []
@@ -20,7 +22,7 @@ def parseDependencies(line: str, strictDeps: List[str], subDeps: List[str]):
 	appended as strings. Dependencies that can be substituted with another
 	package will be appended as List[str].
 	"""
-	line = line[line.find("Depends: ") + 9:-1] # Can also be "Pre-Depends"
+	line = line[line.lower().find("depends: ") + 9:-1] # Can also be "Pre-Depends"
 	dependencies = line.split(", ")
 	for dependency in dependencies:
 		if " | " in dependency: # Substitutable depedencies
@@ -29,3 +31,26 @@ def parseDependencies(line: str, strictDeps: List[str], subDeps: List[str]):
 			subDeps.append(subDependencies)
 		else:
 			strictDeps.append(cleanDependency(dependency))
+
+def tagSuperDependencies():
+	"""
+	Tag packages with at least 20 dependents as super-dependencies
+	"""
+	dbConnection = DBConnection()
+	cursor = dbConnection.connection.cursor()
+
+	query = """
+INSERT INTO tags (package, tag)
+	SELECT id, 'Super Dependency'
+		FROM (SELECT id, COUNT(*) AS c
+			FROM dependencyIdAndNameAndSubId
+			GROUP BY dependency HAVING c > 19)
+		WHERE id NOT NULL;
+"""
+	try:
+		cursor.execute(query)
+		dbConnection.connection.commit()
+	except:
+		pass
+
+	dbConnection.close()

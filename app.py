@@ -4,6 +4,7 @@ from modules.DpkgParser import DpkgParser
 from modules.DBConnection import DBConnection
 from routes.api import bp as apiBp
 from routes.html import bp as htmlBp
+import modules.utils as utils
 
 app = Flask(__name__)
 
@@ -27,5 +28,7 @@ if __name__ == '__main__':
 	# The file has to be traversed twice, because there might be dependencies
 	# that aren't present in the file.
 	pkgData.completePackageInformation()
+
+	utils.tagSuperDependencies()
 
 	app.run(host='0.0.0.0', port=3000, debug=True)
