@@ -4,6 +4,7 @@ import modules.insertQueries as insertQueries
 
 bp = Blueprint('html', __name__,)
 
+@bp.route('/packages')
 @bp.route('/')
 def index():
 	"""

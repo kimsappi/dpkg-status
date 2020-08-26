@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div class='container flexRow noWrap'>
+<div class='container flexRow noWrap' id='indexContainer'>
 	<div>
 		<h1>List of packages</h1>
 
@@ -14,7 +14,7 @@
 		</ol>
 	</div>
 
-	<div>
+	<div id='filtersContainer'>
 		{% include 'tagsFilter.html' %}
 	</div>
 
