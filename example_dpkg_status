@@ -39,6 +39,19 @@ Depends: sl
 Original-Maintainer: Test
 Homepage: https://github.com/kimsappi
 
+Package: aab-multi-dep-test
+Status: install ok installed
+Priority: optional
+Section: java
+Installed-Size: 101
+Maintainer: Test
+Description: asd
+Architecture: all
+Version: 0.0.1
+Depends: sl, cowsay, fortune, libc6, libc6-dev, libglib-2.0, libxau6
+Original-Maintainer: Test
+Homepage: https://github.com/kimsappi
+
 Package: libws-commons-util-java
 Status: install ok installed
 Priority: optional
