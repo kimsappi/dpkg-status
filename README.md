@@ -8,7 +8,7 @@ The goal of the exercise was to parse the contents of `/var/lib/dpkg/status` (co
 * reverse dependencies (packages that depend on current package)
 * (reverse) dependencies should link to the package in question
 
-Contrary to the original spec I also check the Pre-Depends field for dependencies. Instead of replicating the display of "Description" to Debian's spec, I respected the formatting of the original text.
+Contrary to the original spec I also check the Pre-Depends field for dependencies.
 
 # Requirements
 One of the goals of the exercise was to avoid extraneous dependencies. Therefore this implementation is quite standard, requiring only:

@@ -1,6 +1,10 @@
 Description: Common utilities from the Apache Web Services Project
  This is a small collection of utility classes, that allow high
  performance XML processing based on SAX.
+ .
+ .
+ .
+  This row should be slightly indented, after 3 empty rows
 Package: aaatest
 Status: install ok installed
 Priority: optional

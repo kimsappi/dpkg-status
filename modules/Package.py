@@ -1,4 +1,5 @@
 from typing import List
+import re
 from modules.utils import tagsStringParser
 
 class Package:
@@ -50,6 +51,10 @@ INSERT INTO "dependencies" ("dependent", "dependency", "substitutionId")
 			depTuples)
 
 	def addToDB(self, dbCursor):
+		# Replacing lonely newlines (not followed by space (and thus strictly
+		# formatted) or preceded or followed by another newline) with spaces
+		self.description = re.sub(r'(?!\n)(\n)(?![ \n])', ' ', self.description)
+
 		# Simple query for the package's own data
 		dbCursor.execute("""
 UPDATE "packages"
