@@ -25,3 +25,4 @@ cd dpkg-status
 pip3 install -r requirements.txt OR pip3 install flask
 python3 app.py
 ```
+The database is only generated once. If you wish to regenerate the database, you have to remove the the `database` file in the root directory.

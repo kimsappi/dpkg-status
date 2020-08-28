@@ -17,6 +17,8 @@ ul {
 
 a {
 	display: inline-block;
+	transition: 0.5s;
+	transition-timing-function: ease-in-out;
 }
 
 a:link {
@@ -29,7 +31,6 @@ a:visited {
 
 a:hover, a:active {
 	color: #1C458C;
-	transition: 0.5s;
 	transform: scale(1.1);
 }
 
@@ -161,6 +162,33 @@ header > *:not(:first-child) {
 
 .monospace {
 	font-family: monospace;
+}
+
+.filterLinkButton {
+	text-decoration: none;
+	background-color: lightblue;
+	padding: 0.5em;
+	border-radius: 0.5em;
+	margin-bottom: 0.5em;
+	transition: 0.5s;
+	transition-timing-function: ease-in-out;
+}
+
+a:hover.filterLinkButton, a:active.filterLinkButton {
+	transform: none;
+}
+
+.resetFilter, a:link.resetFilter, a:visited.resetFilter, a:hover.resetFilter, a:active.resetFilter {
+	background-color: silver;
+	font-weight: bold;
+}
+
+.filterLinkButton:hover {
+	background-color: rgb(183, 237, 183);
+}
+
+.selectedFilter {
+	background-color: plum;
 }
 
 #tagForm {

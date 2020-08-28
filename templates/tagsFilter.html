@@ -1,11 +1,11 @@
 <h1>Filter by tag</h1>
 <ul id='filterList'>
 	<li>
-		<a href='/' {% if not currentFilter %} class='bold' {% endif %}>Reset</a>
+		<a href='/' class='filterLinkButton resetFilter {% if not currentFilter %} selectedFilter bold {% endif %}'>Reset</a>
 	</li>
 	{% for tag in tags %}
 	<li>
-		<a href='/tagged/{{ tag|urlencode }}' {% if currentFilter|string() == tag|string() %} class='bold' {% endif %}>{{ tag }}</a>
+		<a href='/tagged/{{ tag|urlencode }}' class='filterLinkButton {% if currentFilter|string() == tag|string() %} selectedFilter bold {% endif %}'>{{ tag }}</a>
 	</li>
 	{% endfor %}
 </ul>
