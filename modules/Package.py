@@ -53,7 +53,7 @@ INSERT INTO "dependencies" ("dependent", "dependency", "substitutionId")
 	def addToDB(self, dbCursor):
 		# Replacing lonely newlines (not followed by space (and thus strictly
 		# formatted) or preceded or followed by another newline) with spaces
-		self.description = re.sub(r'(?!\n)(\n)(?![ \n])', ' ', self.description)
+		self.description = re.sub(r'(?<![\n ])(\n)(?![\n ])', ' ', self.description)
 
 		# Simple query for the package's own data
 		dbCursor.execute("""
