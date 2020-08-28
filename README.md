@@ -10,7 +10,7 @@ The goal of the exercise was to parse the contents of `/var/lib/dpkg/status` (co
 
 Contrary to the original spec I also check the Pre-Depends field for dependencies.
 
-There's also a JSON API available through [/api/](https://kimsappi-dpkg-status.herokuapp.com/api/) and it's documentation can be found at [/api/](https://kimsappi-dpkg-status.herokuapp.com/apiDocs).
+There's also a JSON API available through [/api/](https://kimsappi-dpkg-status.herokuapp.com/api/) and it's documentation can be found at [/apiDocs](https://kimsappi-dpkg-status.herokuapp.com/apiDocs).
 
 # Requirements
 One of the goals of the exercise was to avoid extraneous dependencies. Therefore this implementation is quite standard, requiring only:
